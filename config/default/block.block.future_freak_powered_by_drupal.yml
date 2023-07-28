@@ -1,0 +1,22 @@
+uuid: f01a3b8f-e73e-4b70-bc5a-1ddac396c644
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - future_freak
+_core:
+  default_config_hash: s4bVh64Wj80WnAqDi7OWgmirSYRjncdSWgbKPU4sPP8
+id: future_freak_powered_by_drupal
+theme: future_freak
+region: footer
+weight: 0
+provider: null
+plugin: system_powered_by_block
+settings:
+  id: system_powered_by_block
+  label: 'Powered by Drupal'
+  label_display: '0'
+  provider: system
+visibility: {  }

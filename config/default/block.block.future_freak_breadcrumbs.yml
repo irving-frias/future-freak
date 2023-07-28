@@ -1,0 +1,22 @@
+uuid: 6dd3fb28-8949-48ff-ba2a-4948a4fcccf2
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - future_freak
+_core:
+  default_config_hash: 2B_zwVh3bbCh7vfFADhPDeqXXkGQPlPyEwGjuIgUL-o
+id: future_freak_breadcrumbs
+theme: future_freak
+region: breadcrumb
+weight: 0
+provider: null
+plugin: system_breadcrumb_block
+settings:
+  id: system_breadcrumb_block
+  label: Breadcrumbs
+  label_display: '0'
+  provider: system
+visibility: {  }

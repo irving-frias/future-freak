@@ -1,0 +1,25 @@
+uuid: 29812091-a5f4-47ff-a4d1-24b10c3a249a
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - future_freak
+_core:
+  default_config_hash: _6jmOp01FM75g7JuyoqOBANHEZyHnfSL_zSk2dK5EZ4
+id: future_freak_branding
+theme: future_freak
+region: nav_branding
+weight: -6
+provider: null
+plugin: system_branding_block
+settings:
+  id: system_branding_block
+  label: 'Site branding'
+  label_display: '0'
+  provider: system
+  use_site_logo: true
+  use_site_name: true
+  use_site_slogan: false
+visibility: {  }

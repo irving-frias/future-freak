@@ -1,0 +1,27 @@
+uuid: 81f66ab3-c52b-4cdc-923a-f307b4128dd5
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.account
+  module:
+    - system
+  theme:
+    - future_freak
+_core:
+  default_config_hash: AKMBBAz5TQp6GZ8Gp3SgwvTiys019UGwP_H9zBy0QQI
+id: future_freak_account_menu
+theme: future_freak
+region: nav_additional
+weight: -7
+provider: null
+plugin: 'system_menu_block:account'
+settings:
+  id: 'system_menu_block:account'
+  label: 'User account menu'
+  label_display: '0'
+  provider: system
+  level: 1
+  depth: 0
+  expand_all_items: false
+visibility: {  }

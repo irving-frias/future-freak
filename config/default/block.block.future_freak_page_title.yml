@@ -1,0 +1,20 @@
+uuid: c3cb47ac-4e96-4a89-9a8e-bfc87f5bb36f
+langcode: en
+status: true
+dependencies:
+  theme:
+    - future_freak
+_core:
+  default_config_hash: RB8yPh3XTgCjw938kmUBliL6zNi7xrT3GTNItzd_ki4
+id: future_freak_page_title
+theme: future_freak
+region: content
+weight: -6
+provider: null
+plugin: page_title_block
+settings:
+  id: page_title_block
+  label: 'Page title'
+  label_display: '0'
+  provider: core
+visibility: {  }

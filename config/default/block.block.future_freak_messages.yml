@@ -1,0 +1,22 @@
+uuid: ecbaa71a-00e9-4653-8dc8-da1dad2897a2
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - future_freak
+_core:
+  default_config_hash: jcmZrEnb6_RiGB1iRsDOnnjYGg7wYB5Nsf51EuElYds
+id: future_freak_messages
+theme: future_freak
+region: content
+weight: -7
+provider: null
+plugin: system_messages_block
+settings:
+  id: system_messages_block
+  label: Messages
+  label_display: '0'
+  provider: system
+visibility: {  }

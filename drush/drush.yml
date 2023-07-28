@@ -1,0 +1,12 @@
+options:
+  uri: 'http://future-freak.test'
+drush:
+  paths:
+    config:
+      # Load a drush.yml configuration file from the current working directory.
+      # Allow local global config overrides.
+      - local.drush.yml
+    include:
+      - '${env.home}/.drush'
+      - /usr/share/drush/commands
+

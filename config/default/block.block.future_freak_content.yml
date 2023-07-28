@@ -1,0 +1,22 @@
+uuid: defcb69b-179c-4be3-bee1-9f1b0fda4972
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - future_freak
+_core:
+  default_config_hash: Lo6CdenKkjvKK0l7QrdNVvs2G7P-hPpVw5g5PjZlXIM
+id: future_freak_content
+theme: future_freak
+region: content
+weight: -1
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Main page content'
+  label_display: '0'
+  provider: system
+visibility: {  }
