@@ -1,0 +1,35 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for Rick and Morty module.
+ */
+ function rick_and_morty_menu() {
+   $items = [];
+
+   $items['character'] = [
+     'title' => 'Character API',
+     'page callback' => 'rick_and_morty_character_endpoint',
+     'access callback' => 'user_access',
+     'access arguments' => ['access content'],
+     'type' => MENU_CALLBACK,
+   ];
+
+   $items['episode'] = [
+     'title' => 'Episode API',
+     'page callback' => 'rick_and_morty_episode_endpoint',
+     'access callback' => 'user_access',
+     'access arguments' => ['access content'],
+     'type' => MENU_CALLBACK,
+   ];
+
+   $items['location'] = [
+     'title' => 'Location API',
+     'page callback' => 'rick_and_morty_location_endpoint',
+     'access callback' => 'user_access',
+     'access arguments' => ['access content'],
+     'type' => MENU_CALLBACK,
+   ];
+
+   return $items;
+ }

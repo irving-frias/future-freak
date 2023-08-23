@@ -1,0 +1,7 @@
+rick_and_morty.settings:
+  path: '/rick-and-morty/settings'
+  defaults:
+    _title: 'Rick and Morty Settings'
+    _form: 'Drupal\rick_and_morty\Form\SettingsForm'
+  requirements:
+    _permission: 'administer site configuration'

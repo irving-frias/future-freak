@@ -1,0 +1,4 @@
+api_url: 'https://rickandmortyapi.com/api'
+api_url_characters_endpoint: /character
+api_url_locations_endpoint: /location
+api_url_episodes_endpoint: /episode
