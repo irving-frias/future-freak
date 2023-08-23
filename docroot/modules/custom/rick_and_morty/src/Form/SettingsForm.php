@@ -28,7 +28,6 @@ final class SettingsForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state): array {
-    // API URL -> https://rickandmortyapi.com/api
     $endpoint = 'https://rickandmortyapi.com/api';
     $form['api_url'] = [
       '#type' => 'textfield',
@@ -45,9 +44,7 @@ final class SettingsForm extends ConfigFormBase {
       '#attributes' => ['readonly' => 'readonly'],
     ];
 
-    $totalPages = !empty($endpoint) && empty($this->config('rick_and_morty.settings')->get('api_url_characters_total_pages'))
-        ? $this->getTotalPages($endpoint . $character_endpoint)
-        : $this->config('rick_and_morty.settings')->get('api_url_characters_total_pages');
+    $totalPages = $this->getTotalPages($endpoint . $character_endpoint);
 
     $form['api_url_characters_total_pages'] = [
       '#type' => 'textfield',
@@ -64,9 +61,7 @@ final class SettingsForm extends ConfigFormBase {
       '#attributes' => ['readonly' => 'readonly'],
     ];
 
-    $totalPages = !empty($endpoint) && empty($this->config('rick_and_morty.settings')->get('api_url_locations_total_pages'))
-        ? $this->getTotalPages($endpoint . $location_endpoint)
-        : $this->config('rick_and_morty.settings')->get('api_url_locations_total_pages');
+    $totalPages = $this->getTotalPages($endpoint . $location_endpoint);
 
     $form['api_url_locations_total_pages'] = [
       '#type' => 'textfield',
@@ -83,9 +78,7 @@ final class SettingsForm extends ConfigFormBase {
       '#attributes' => ['readonly' => 'readonly'],
     ];
 
-    $totalPages = !empty($endpoint) && empty($this->config('rick_and_morty.settings')->get('api_url_episodes_total_pages'))
-        ? $this->getTotalPages($endpoint . $episodes_endpoint)
-        : $this->config('rick_and_morty.settings')->get('api_url_episodes_total_pages');
+    $totalPages = $this->getTotalPages($endpoint . $episodes_endpoint);
 
     $form['api_url_episodes_total_pages'] = [
       '#type' => 'textfield',

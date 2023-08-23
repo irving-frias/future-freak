@@ -1,0 +1,8 @@
+uuid: b19edf85-3750-422b-bde0-61c2bd350d20
+langcode: en
+status: true
+dependencies: {  }
+name: 'Character Location'
+vid: character_location
+description: ''
+weight: 0

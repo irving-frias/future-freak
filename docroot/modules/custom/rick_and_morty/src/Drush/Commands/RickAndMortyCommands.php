@@ -2,11 +2,8 @@
 
 namespace Drupal\rick_and_morty\Drush\Commands;
 
-use Consolidation\OutputFormatters\StructuredData\RowsOfFields;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Site\Settings;
-use Drupal\Core\Utility\Token;
 use Drush\Attributes as CLI;
 use Drush\Commands\DrushCommands;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -64,9 +61,10 @@ final class RickAndMortyCommands extends DrushCommands {
     $config = $this->getConfigFormSettings();
     $endpoint = $config['api_url'] . $config['api_url_characters_endpoint'];
     $total_pages = (int)$config['api_url_characters_total_pages'];
+    $typeOfData = 'character';
 
     foreach ($this->fetchDataGenerator($endpoint, $total_pages) as $item) {
-        foreach ($this->fetchSingleDataGenerator($item) as $item) {
+        foreach ($this->fetchSingleDataGenerator($item, $typeOfData) as $item) {
             echo $item . PHP_EOL;
         }
     }
@@ -83,9 +81,10 @@ final class RickAndMortyCommands extends DrushCommands {
     $config = $this->getConfigFormSettings();
     $endpoint = $config['api_url'] . $config['api_url_locations_endpoint'];
     $total_pages = (int)$config['api_url_locations_total_pages'];
+    $typeOfData = 'location';
 
     foreach ($this->fetchDataGenerator($endpoint, $total_pages) as $item) {
-        foreach ($this->fetchSingleDataGenerator($item) as $item) {
+        foreach ($this->fetchSingleDataGenerator($item, $typeOfData) as $item) {
             echo $item . PHP_EOL;
         }
     }
@@ -102,9 +101,10 @@ final class RickAndMortyCommands extends DrushCommands {
     $config = $this->getConfigFormSettings();
     $endpoint = $config['api_url'] . $config['api_url_episodes_endpoint'];
     $total_pages = (int)$config['api_url_episodes_total_pages'];
+    $typeOfData = 'episode';
 
     foreach ($this->fetchDataGenerator($endpoint, $total_pages) as $item) {
-        foreach ($this->fetchSingleDataGenerator($item) as $item) {
+        foreach ($this->fetchSingleDataGenerator($item, $typeOfData) as $item) {
             echo $item . PHP_EOL;
         }
     }
@@ -145,13 +145,37 @@ final class RickAndMortyCommands extends DrushCommands {
     return $data['results'];
   }
 
-  private function fetchSingleDataGenerator($data) {
+  private function fetchSingleDataGenerator($data, $typeOfData) {
     foreach ($data as $item) {
-        yield $this->fetchSingleData($item); // Yield each item one at a time.
+        yield $this->fetchSingleData($item, $typeOfData); // Yield each item one at a time.
     }
   }
 
-  private function fetchSingleData($data) {
+  private function fetchSingleData($data, $typeOfData) {
+    switch ($typeOfData) {
+      case 'character':
+        $this->createCharacter($data);
+        break;
+
+      case 'location':
+        $this->createLocation($data);
+        break;
+
+      case 'episode':
+        $this->createEpisode($data);
+        break;
+    }
+  }
+
+  private function createCharacter(&$data) {
+    echo $data['name'];
+  }
+
+  private function createLocation(&$data) {
+    echo $data['name'];
+  }
+
+  private function createEpisode(&$data) {
     echo $data['name'];
   }
 }
