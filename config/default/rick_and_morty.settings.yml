@@ -2,3 +2,6 @@ api_url: 'https://rickandmortyapi.com/api'
 api_url_characters_endpoint: /character
 api_url_locations_endpoint: /location
 api_url_episodes_endpoint: /episode
+api_url_characters_total_pages: '3'
+api_url_locations_total_pages: '7'
+api_url_episodes_total_pages: '3'

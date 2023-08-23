@@ -35,10 +35,22 @@ final class SettingsForm extends ConfigFormBase {
       '#default_value' => $this->config('rick_and_morty.settings')->get('api_url'),
     ];
 
+    $endpoint = $this->config('rick_and_morty.settings')->get('api_url');
+
     $form['api_url_characters_endpoint'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Characters Endpoint'),
       '#default_value' => $this->config('rick_and_morty.settings')->get('api_url_characters_endpoint'),
+    ];
+
+    $totalPages = !empty($endpoint) && empty($this->config('rick_and_morty.settings')->get('api_url_characters_total_pages'))
+        ? $this->getTotalPages($endpoint . $this->config('rick_and_morty.settings')->get('api_url_characters_endpoint'))
+        : $this->config('rick_and_morty.settings')->get('api_url_characters_total_pages');
+
+    $form['api_url_characters_total_pages'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Characters Total Pages'),
+      '#default_value' => $totalPages,
     ];
 
     $form['api_url_locations_endpoint'] = [
@@ -47,11 +59,32 @@ final class SettingsForm extends ConfigFormBase {
       '#default_value' => $this->config('rick_and_morty.settings')->get('api_url_locations_endpoint'),
     ];
 
+    $totalPages = !empty($endpoint) && empty($this->config('rick_and_morty.settings')->get('api_url_locations_total_pages'))
+        ? $this->getTotalPages($endpoint . $this->config('rick_and_morty.settings')->get('api_url_locations_endpoint'))
+        : $this->config('rick_and_morty.settings')->get('api_url_locations_total_pages');
+
+    $form['api_url_locations_total_pages'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Locations Total Pages'),
+      '#default_value' => $totalPages,
+    ];
+
     $form['api_url_episodes_endpoint'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Episodes Endpoint'),
       '#default_value' => $this->config('rick_and_morty.settings')->get('api_url_episodes_endpoint'),
     ];
+
+    $totalPages = !empty($endpoint) && empty($this->config('rick_and_morty.settings')->get('api_url_episodes_total_pages'))
+        ? $this->getTotalPages($endpoint . $this->config('rick_and_morty.settings')->get('api_url_episodes_endpoint'))
+        : $this->config('rick_and_morty.settings')->get('api_url_episodes_total_pages');
+
+    $form['api_url_episodes_total_pages'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Locations Episodes Pages'),
+      '#default_value' => $totalPages,
+    ];
+
     return parent::buildForm($form, $form_state);
   }
 
@@ -91,7 +124,31 @@ final class SettingsForm extends ConfigFormBase {
     $this->config('rick_and_morty.settings')
     ->set('api_url_episodes_endpoint', $form_state->getValue('api_url_episodes_endpoint'))
     ->save();
+
+    $this->config('rick_and_morty.settings')
+    ->set('api_url_characters_total_pages', $form_state->getValue('api_url_characters_total_pages'))
+    ->save();
+
+    $this->config('rick_and_morty.settings')
+      ->set('api_url_locations_total_pages', $form_state->getValue('api_url_locations_total_pages'))
+      ->save();
+
+    $this->config('rick_and_morty.settings')
+    ->set('api_url_episodes_total_pages', $form_state->getValue('api_url_episodes_total_pages'))
+    ->save();
     parent::submitForm($form, $form_state);
   }
 
+  private function getTotalPages(string $endpoint): int {
+    $response = \Drupal::httpClient()->get($endpoint);
+    if ($response->getStatusCode() != 200) {
+        return [];
+    }
+
+    $body = $response->getBody();
+    $jsonString = $body->getContents(); // Convert the stream to a string.
+    $data = json_decode($jsonString, TRUE);
+
+    return $data['info']['pages'];
+  }
 }

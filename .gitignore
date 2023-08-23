@@ -122,3 +122,4 @@ oauth_keys/
 deployment_identifier
 /travis_wait*
 /files-private
+.vscode/
