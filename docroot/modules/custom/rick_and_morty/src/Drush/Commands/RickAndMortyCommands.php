@@ -8,6 +8,10 @@ use Drush\Attributes as CLI;
 use Drush\Commands\DrushCommands;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\node\Entity\Node;
+use Drupal\taxonomy\Entity\Term;
+use Drupal\media\Entity\Media;
+use Drupal\Core\File\FileSystemInterface;
+use Drupal\Core\Datetime\DrupalDateTime;
 
 /**
  * A Drush commandfile.
@@ -170,20 +174,73 @@ final class RickAndMortyCommands extends DrushCommands {
 
   private function createCharacter(&$data, &$typeOfData) {
     $nodeStorage = $this->entityTypeManager->getStorage('node');
+    $mediaStorage = $this->entityTypeManager->getStorage('media');
     $nids = $nodeStorage->getQuery()
         ->accessCheck(FALSE)
         ->condition('type', $typeOfData, 'IN')
         ->condition('field_character_id', $data['id'], 'IN')
         ->execute();
+    $mid = $mediaStorage->getQuery()
+        ->accessCheck(FALSE)
+        ->condition('bundle', ['character_image'], 'IN')
+        ->condition('name', $data['name'], 'IN')
+        ->execute();
+
+    if (empty($mid)) {
+        $image_data = file_get_contents($data['image']);
+        $file_repository = \Drupal::service('file.repository');
+        $processed_name = strtolower(str_replace(' ', '-', $data['name']));
+        $image = $file_repository->writeData($image_data, "public://" . $processed_name . ".png", FileSystemInterface::EXISTS_REPLACE);
+
+        $image_media = Media::create([
+          'name' => $data['name'],
+          'bundle' => 'character',
+          'field_media_image' => [
+              'target_id' => $image->id(),
+              'alt' => $data['name'],
+              'title' => $data['name'],
+          ],
+          'uid' => 1,
+        ]);
+
+        $image_media_methods = get_class_methods($image_media);
+
+        $image_media->save();
+    } else {
+        $mids = $mediaStorage->loadMultiple($mid);
+        $image_media = array_shift($mids);
+    }
 
     if (empty($nids)) {
         $node = Node::create([
             'type' => $typeOfData, // Replace with your content type machine name.
             'title' => $data['name'],
+            'uid' => 1,
+            //'field_character_created' => $data['created'],
+            //'field_character_gender' => $data['gender'],
+            'field_character_id' => $data['id'],
+            'field_character_image' => $image_media,
+            //'field_character_location' => $data['location']['name'],
+            'field_character_name' => $data['name'],
+            //'field_character_species' => $data['species'],
+            //'field_character_status' => $data['status'],
+            //'field_character_type' => $data['type'],
         ]);
 
         // Save the node.
         $node->save();
+    } else {
+        $nodes = $nodeStorage->loadMultiple($nids);
+        $node = array_shift($nodes);
+        //$node->field_character_created = $data['created'];
+        //$node->field_character_gender = $data[''];
+        $node->field_character_id = $data['id'];
+        $node->field_character_image = $image_media;
+        //$node->field_character_location = $data[''];
+        $node->field_character_name = $data['name'];
+        //$node->field_character_species = $data[''];
+        //$node->field_character_status = $data[''];
+        //$node->field_character_type = $data[''];
     }
     echo $data['name'];
   }
