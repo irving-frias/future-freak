@@ -1,0 +1,172 @@
+uuid: dc7d682d-45a1-41c8-a49a-aa4b18809c85
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_character_id
+    - search_api.server.solr
+  module:
+    - search_api_solr
+    - node
+    - search_api
+third_party_settings:
+  search_api_solr:
+    finalize: false
+    commit_before_finalize: false
+    commit_after_finalize: false
+    debug_finalize: false
+    highlighter:
+      maxAnalyzedChars: 51200
+      fragmenter: gap
+      usePhraseHighlighter: true
+      highlightMultiTerm: true
+      preserveMulti: false
+      regex:
+        slop: 0.5
+        pattern: blank
+        maxAnalyzedChars: 10000
+      highlight:
+        mergeContiguous: false
+        requireFieldMatch: false
+        snippets: 3
+        fragsize: 0
+    mlt:
+      mintf: 1
+      mindf: 1
+      maxdf: 0
+      maxdfpct: 0
+      minwl: 0
+      maxwl: 0
+      maxqt: 100
+      maxntp: 2000
+      boost: false
+      interestingTerms: none
+    term_modifiers:
+      slop: 3
+      fuzzy: 1
+    advanced:
+      index_prefix: ''
+      collection: ''
+      timezone: ''
+    multilingual:
+      limit_to_content_language: false
+      include_language_independent: true
+      use_language_undefined_as_fallback_language: false
+      specific_languages:
+        en: '0'
+      use_universal_collation: false
+id: content
+name: Content
+description: ''
+read_only: false
+field_settings:
+  field_character_id:
+    label: 'Character ID'
+    datasource_id: 'entity:node'
+    property_path: field_character_id
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_character_id
+  label:
+    label: Label
+    property_path: aggregated_field
+    type: 'solr_text_custom:ngram'
+    boost: 5.0
+    configuration:
+      type: first
+      fields:
+        - 'entity:node/title'
+  label_spellcheck:
+    label: 'Label Spellcheck'
+    property_path: aggregated_field
+    type: solr_text_spellcheck
+    boost: 5.0
+    configuration:
+      type: first
+      fields:
+        - 'entity:node/title'
+  nid:
+    label: ID
+    datasource_id: 'entity:node'
+    property_path: nid
+    type: integer
+    dependencies:
+      module:
+        - node
+  rendered_item:
+    label: 'Rendered HTML output'
+    property_path: rendered_item
+    type: 'solr_text_custom:ngram'
+    boost: 5.0
+    configuration:
+      roles:
+        - anonymous
+      view_mode:
+        'entity:node':
+          character: ''
+  rendered_item_spellcheck:
+    label: 'Rendered HTML output Spellcheck'
+    property_path: rendered_item
+    type: solr_text_spellcheck
+    configuration:
+      roles:
+        - anonymous
+      view_mode:
+        'entity:node':
+          character: ''
+  status:
+    label: status
+    datasource_id: 'entity:node'
+    property_path: status
+    type: boolean
+    dependencies:
+      module:
+        - node
+  type:
+    label: 'Content type'
+    datasource_id: 'entity:node'
+    property_path: type
+    type: string
+    dependencies:
+      module:
+        - node
+  uid:
+    label: uid
+    datasource_id: 'entity:node'
+    property_path: uid
+    type: integer
+    dependencies:
+      module:
+        - node
+  url:
+    label: URI
+    property_path: search_api_url
+    type: 'solr_text_custom:ngram'
+    configuration:
+      absolute: false
+datasource_settings:
+  'entity:node':
+    bundles:
+      default: false
+      selected:
+        - character
+    languages:
+      default: true
+      selected: {  }
+processor_settings:
+  add_url: {  }
+  aggregated_field: {  }
+  auto_aggregated_fulltext_field: {  }
+  entity_type: {  }
+  language_with_fallback: {  }
+  rendered_item: {  }
+  solr_date_range: {  }
+tracker_settings:
+  default:
+    indexing_order: fifo
+options:
+  cron_limit: 50
+  index_directly: true
+  track_changes_in_references: true
+server: solr
