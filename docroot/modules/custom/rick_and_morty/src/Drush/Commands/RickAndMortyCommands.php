@@ -182,7 +182,7 @@ final class RickAndMortyCommands extends DrushCommands {
         ->execute();
     $mid = $mediaStorage->getQuery()
         ->accessCheck(FALSE)
-        ->condition('bundle', ['character_image'], 'IN')
+        ->condition('bundle', 'character', 'IN')
         ->condition('name', $data['name'], 'IN')
         ->execute();
 
@@ -203,44 +203,48 @@ final class RickAndMortyCommands extends DrushCommands {
           'uid' => 1,
         ]);
 
-        $image_media_methods = get_class_methods($image_media);
-
         $image_media->save();
     } else {
         $mids = $mediaStorage->loadMultiple($mid);
         $image_media = array_shift($mids);
     }
 
+    $date = new DrupalDateTime($data['created']);
+
     if (empty($nids)) {
-        $node = Node::create([
+        $node = \Drupal::entityTypeManager()
+        ->getStorage('node')
+        ->create([
             'type' => $typeOfData, // Replace with your content type machine name.
             'title' => $data['name'],
             'uid' => 1,
-            //'field_character_created' => $data['created'],
-            //'field_character_gender' => $data['gender'],
-            'field_character_id' => $data['id'],
-            'field_character_image' => $image_media,
-            //'field_character_location' => $data['location']['name'],
-            'field_character_name' => $data['name'],
-            //'field_character_species' => $data['species'],
-            //'field_character_status' => $data['status'],
-            //'field_character_type' => $data['type'],
         ]);
+
+        //$node->get('field_character_created')->setValue($date);
+        $node->get('field_character_gender')->setValue(rick_and_morty_taxonomy_load_by_name('character_gender', $data['gender'])->id());
+        $node->get('field_character_id')->setValue($data['id']);
+        $node->get('field_character_image')->setValue($image_media);
+        $node->get('field_character_location')->setValue(rick_and_morty_taxonomy_load_by_name('character_location', $data['location']['name'])->id());
+        $node->get('field_character_name')->setValue($data['name']);
+        $node->get('field_character_species')->setValue(rick_and_morty_taxonomy_load_by_name('character_species', $data['species'])->id());
+        $node->get('field_character_status')->setValue(rick_and_morty_taxonomy_load_by_name('character_status', $data['status'])->id());
+        $node->get('field_character_type')->setValue(rick_and_morty_taxonomy_load_by_name('character_type', $data['type'])->id());
 
         // Save the node.
         $node->save();
     } else {
         $nodes = $nodeStorage->loadMultiple($nids);
         $node = array_shift($nodes);
-        //$node->field_character_created = $data['created'];
-        //$node->field_character_gender = $data[''];
+        //$node->field_character_created->value = $date;
+        $node->field_character_gender = rick_and_morty_taxonomy_load_by_name('character_gender', $data['gender'])->id();
         $node->field_character_id = $data['id'];
         $node->field_character_image = $image_media;
-        //$node->field_character_location = $data[''];
+        $node->field_character_location = rick_and_morty_taxonomy_load_by_name('character_location', $data['location']['name'])->id();
         $node->field_character_name = $data['name'];
-        //$node->field_character_species = $data[''];
-        //$node->field_character_status = $data[''];
-        //$node->field_character_type = $data[''];
+        $node->field_character_species = rick_and_morty_taxonomy_load_by_name('character_species', $data['species'])->id();
+        $node->field_character_status = rick_and_morty_taxonomy_load_by_name('character_status', $data['status'])->id();
+        $node->field_character_type = rick_and_morty_taxonomy_load_by_name('character_type', $data['type'])->id();
+        $node->save();
     }
     echo $data['name'];
   }

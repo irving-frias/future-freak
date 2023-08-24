@@ -4,3 +4,31 @@
  * @file
  * Primary module hooks for Rick and Morty module.
  */
+
+ use Drupal\taxonomy\Entity\Term;
+
+/**
+ * Loads taxonomy term by name.
+ */
+function rick_and_morty_taxonomy_load_by_name($term_name, $vocabulary) {
+  $terms = \Drupal::entityTypeManager()
+    ->getStorage('taxonomy_term')
+    ->loadByProperties([
+      'vid' => $term_name,
+      'name' => $vocabulary,
+    ]);
+
+  if ($terms) {
+    $term = reset($terms);
+    return $term;
+  } else {
+    $term = Term::create([
+        'vid' => $term_name,
+        'name' => !empty($vocabulary) ? $vocabulary : 'unknown',
+    ]);
+
+    $term->enforceIsNew();
+    $term->save();
+    return $term;
+  }
+}
