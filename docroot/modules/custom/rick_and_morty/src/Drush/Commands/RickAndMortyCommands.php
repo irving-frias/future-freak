@@ -7,6 +7,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drush\Attributes as CLI;
 use Drush\Commands\DrushCommands;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\node\Entity\Node;
 
 /**
  * A Drush commandfile.
@@ -154,7 +155,7 @@ final class RickAndMortyCommands extends DrushCommands {
   private function fetchSingleData($data, $typeOfData) {
     switch ($typeOfData) {
       case 'character':
-        $this->createCharacter($data);
+        $this->createCharacter($data, $typeOfData);
         break;
 
       case 'location':
@@ -167,7 +168,23 @@ final class RickAndMortyCommands extends DrushCommands {
     }
   }
 
-  private function createCharacter(&$data) {
+  private function createCharacter(&$data, &$typeOfData) {
+    $nodeStorage = $this->entityTypeManager->getStorage('node');
+    $nids = $nodeStorage->getQuery()
+        ->accessCheck(FALSE)
+        ->condition('type', $typeOfData, 'IN')
+        ->condition('field_character_id', $data['id'], 'IN')
+        ->execute();
+
+    if (empty($nids)) {
+        $node = Node::create([
+            'type' => $typeOfData, // Replace with your content type machine name.
+            'title' => $data['name'],
+        ]);
+
+        // Save the node.
+        $node->save();
+    }
     echo $data['name'];
   }
 
