@@ -1,0 +1,29 @@
+uuid: b2413630-6cb0-4cc7-a270-1894b8fafa6e
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.facets_characters_status
+  module:
+    - facets
+    - system
+  theme:
+    - future_freak
+id: future_freak_facets_characters_status
+theme: future_freak
+region: facets
+weight: 0
+provider: null
+plugin: 'facet_block:facets_characters_status'
+settings:
+  id: 'facet_block:facets_characters_status'
+  label: 'Facets - Characters - Status'
+  label_display: '0'
+  provider: facets
+  context_mapping: {  }
+  block_id: future_freak_facets_characters_status
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /character

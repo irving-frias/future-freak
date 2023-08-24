@@ -10,14 +10,18 @@ ckeditor_stylesheets:
 ckeditor5-stylesheets:
   - css/ck5style.css
 regions:
+  utility_bar: 'Utility Bar'
   header: Header
   nav_branding: 'Navigation branding region'
   nav_main: 'Main navigation region'
-  nav_additional: 'Additional navigation region (eg search form, social icons, etc)'
+  hero: 'Hero'
+  primary_tabs: 'Primary Tabs'
   breadcrumb: Breadcrumbs
+  exposed_forms: 'Exposed Forms'
+  facets: Facets
   content: 'Main content'
-  sidebar_first: 'Sidebar first'
-  sidebar_second: 'Sidebar second'
+  footer_top: 'Footer Top'
   footer: Footer
+  footer_bottom: 'Footer Bottom'
 libraries-override:
   bootstrap5/global-styling: false

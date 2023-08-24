@@ -1,0 +1,29 @@
+uuid: 7f80107e-e8b9-4a78-8cd0-18aad3e3fbf6
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.facets_characters_type
+  module:
+    - facets
+    - system
+  theme:
+    - future_freak
+id: future_freak_facets_characters_type
+theme: future_freak
+region: facets
+weight: 0
+provider: null
+plugin: 'facet_block:facets_characters_type'
+settings:
+  id: 'facet_block:facets_characters_type'
+  label: 'Facets - Characters - Type'
+  label_display: '0'
+  provider: facets
+  context_mapping: {  }
+  block_id: future_freak_facets_characters_type
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /character

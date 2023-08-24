@@ -1,0 +1,29 @@
+uuid: 3d88ab94-39d0-40e8-9d8e-f5f6ea06593e
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.facets_characters_gender
+  module:
+    - facets
+    - system
+  theme:
+    - future_freak
+id: future_freak_facets_characters_gender
+theme: future_freak
+region: facets
+weight: 0
+provider: null
+plugin: 'facet_block:facets_characters_gender'
+settings:
+  id: 'facet_block:facets_characters_gender'
+  label: 'Facets - Characters - Gender'
+  label_display: '0'
+  provider: facets
+  context_mapping: {  }
+  block_id: future_freak_facets_characters_gender
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /character
