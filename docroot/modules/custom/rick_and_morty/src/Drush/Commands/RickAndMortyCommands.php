@@ -209,7 +209,8 @@ final class RickAndMortyCommands extends DrushCommands {
         $image_media = array_shift($mids);
     }
 
-    $date = new DrupalDateTime($data['created']);
+    $date = new \DateTime($data['created']);
+    $date = $date->format('Y-m-d');
 
     if (empty($nids)) {
         $node = \Drupal::entityTypeManager()
@@ -218,9 +219,11 @@ final class RickAndMortyCommands extends DrushCommands {
             'type' => $typeOfData, // Replace with your content type machine name.
             'title' => $data['name'],
             'uid' => 1,
+            'field_character_created' => [
+                'value' => $date,
+            ],
         ]);
 
-        //$node->get('field_character_created')->setValue($date);
         $node->get('field_character_gender')->setValue(rick_and_morty_taxonomy_load_by_name('character_gender', $data['gender'])->id());
         $node->get('field_character_id')->setValue($data['id']);
         $node->get('field_character_image')->setValue($image_media);
@@ -235,7 +238,7 @@ final class RickAndMortyCommands extends DrushCommands {
     } else {
         $nodes = $nodeStorage->loadMultiple($nids);
         $node = array_shift($nodes);
-        //$node->field_character_created->value = $date;
+        $node->field_character_created->value = $date;
         $node->field_character_gender = rick_and_morty_taxonomy_load_by_name('character_gender', $data['gender'])->id();
         $node->field_character_id = $data['id'];
         $node->field_character_image = $image_media;
@@ -246,14 +249,15 @@ final class RickAndMortyCommands extends DrushCommands {
         $node->field_character_type = rick_and_morty_taxonomy_load_by_name('character_type', $data['type'])->id();
         $node->save();
     }
-    echo $data['name'];
+
+    $this->logger()->success(dt('Character imported: ' . $data['id'] . ' ' . $data['name']));
   }
 
   private function createLocation(&$data) {
-    echo $data['name'];
+    $this->logger()->success(dt('Location imported: ' . $data['id'] . ' ' . $data['name']));
   }
 
   private function createEpisode(&$data) {
-    echo $data['name'];
+    $this->logger()->success(dt('Episode imported: ' . $data['id'] . ' ' . $data['name']));
   }
 }

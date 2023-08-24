@@ -11,6 +11,7 @@
  * Loads taxonomy term by name.
  */
 function rick_and_morty_taxonomy_load_by_name($term_name, $vocabulary) {
+  $vocabulary = !empty($vocabulary) ? $vocabulary : 'unknown';
   $terms = \Drupal::entityTypeManager()
     ->getStorage('taxonomy_term')
     ->loadByProperties([
@@ -24,7 +25,7 @@ function rick_and_morty_taxonomy_load_by_name($term_name, $vocabulary) {
   } else {
     $term = Term::create([
         'vid' => $term_name,
-        'name' => !empty($vocabulary) ? $vocabulary : 'unknown',
+        'name' => $vocabulary,
     ]);
 
     $term->enforceIsNew();

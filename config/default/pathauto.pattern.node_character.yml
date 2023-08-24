@@ -7,12 +7,12 @@ dependencies:
 id: node_character
 label: 'Node Character'
 type: 'canonical_entities:node'
-pattern: '/character/[node:nid]'
+pattern: '/character/[node:field_character_id]'
 selection_criteria:
-  c3be1dc0-a6b2-4456-bd4a-814604226ccb:
+  b3f6e6cb-5a55-42a1-a876-ebd812883665:
     id: 'entity_bundle:node'
     negate: false
-    uuid: c3be1dc0-a6b2-4456-bd4a-814604226ccb
+    uuid: b3f6e6cb-5a55-42a1-a876-ebd812883665
     context_mapping:
       node: node
     bundles:
