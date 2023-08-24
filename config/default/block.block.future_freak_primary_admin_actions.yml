@@ -1,0 +1,18 @@
+uuid: 53586525-745f-4b36-bc8e-8a82d2a93f0e
+langcode: en
+status: true
+dependencies:
+  theme:
+    - future_freak
+id: future_freak_primary_admin_actions
+theme: future_freak
+region: primary_tabs
+weight: 0
+provider: null
+plugin: local_actions_block
+settings:
+  id: local_actions_block
+  label: 'Primary admin actions'
+  label_display: '0'
+  provider: core
+visibility: {  }
