@@ -13,3 +13,27 @@ rick_and_morty.controllers:
     _controller: '\Drupal\rick_and_morty\Controller\RickAndMortyController'
   requirements:
     _permission: 'access content'
+
+rick_and_morty.import_character:
+  path: '/rick-and-morty/import-character'
+  defaults:
+    _title: 'Import Character'
+    _form: 'Drupal\rick_and_morty\Form\ImportCharacterForm'
+  requirements:
+    _permission: 'access content'
+
+rick_and_morty.import_episode:
+  path: '/rick-and-morty/import-episode'
+  defaults:
+    _title: 'Import Episode'
+    _form: 'Drupal\rick_and_morty\Form\ImportEpisodeForm'
+  requirements:
+    _permission: 'access content'
+
+rick_and_morty.import_location:
+  path: '/rick-and-morty/import-location'
+  defaults:
+    _title: 'Import Location'
+    _form: 'Drupal\rick_and_morty\Form\ImportLocationForm'
+  requirements:
+    _permission: 'access content'
