@@ -59,8 +59,24 @@ final class ImportCharacterForm extends FormBase {
       return $endpoint . $page;
     }, range(1, $total_pages));
 
-    foreach ($endpoints as $endpoint) {
-      $operations[] = ['import_characters_data', [$endpoint]];
+    $client = \Drupal::httpClient();
+
+    $promises = [];
+    foreach ($endpoints as $url) {
+      $promises[] = $client->getAsync($url);
+    }
+
+    // Wait for all promises to complete.
+    $responses = \GuzzleHttp\Promise\Utils::unwrap($promises);
+
+    foreach ($responses as $response) {
+      // Process each response as needed.
+      $statusCode = $response->getStatusCode();
+      $content = $response->getBody()->getContents();
+      $data = json_decode($content, TRUE)['results'];
+      foreach ($data as $data) {
+        $operations[] = ['import_characters_data', [$data]];
+      }
     }
 
     $batch = [

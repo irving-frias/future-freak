@@ -37,13 +37,11 @@ function rick_and_morty_taxonomy_load_by_name($term_name, $vocabulary) {
   }
 }
 
-function import_characters_data($endpoint, &$context){
+function import_characters_data($data, &$context){
   $message = 'Importing all characters ...';
   $results = array();
-  foreach (process_characters_endpoint($endpoint) as $data) {
-    $node = create_or_update_characters_node($data);
-    $results[] = $node->save();
-  }
+  $node = create_or_update_characters_node($data);
+  $results[] = $node->save();
 
   $context['message'] = $message;
   $context['results'] = $results;
