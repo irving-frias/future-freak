@@ -47,17 +47,14 @@ function import_characters_data($data, &$context){
   $context['results'] = $results;
 }
 
-function process_characters_endpoint($endpoint) {
-  $response = \Drupal::httpClient()->get($endpoint);
-  if ($response->getStatusCode() != 200) {
-      return [];
-  }
+function import_locations_data($data, &$context){
+  $message = 'Importing all locations ...';
+  $results = array();
+  $node = create_or_update_locations_node($data);
+  $results[] = $node->save();
 
-  $body = $response->getBody();
-  $jsonString = $body->getContents(); // Convert the stream to a string.
-  $data = json_decode($jsonString, TRUE);
-
-  return $data['results'];
+  $context['message'] = $message;
+  $context['results'] = $results;
 }
 
 function create_or_update_characters_node($data): Node {
@@ -67,6 +64,19 @@ function create_or_update_characters_node($data): Node {
     ->condition('field_character_id', $data['id'], 'IN')
     ->execute();
 
+  $location = $data['location']['url'];
+  if (!empty($location)) {
+    $location = parse_url($location);
+    $location = basename($location['path']);
+    $locations = \Drupal::entityQuery('node')
+      ->accessCheck(FALSE)
+      ->condition('type', 'location', 'IN')
+      ->condition('field_location_id', $location, 'IN')
+      ->execute();
+    $locations = array_map(function($resident) {
+      return [ 'target_id' => $resident ];
+    }, $locations);
+  }
   $media = create_or_get_media('character', $data['name'], $data);
   $date = new \DateTime($data['created']);
   $date = $date->format('Y-m-d');
@@ -84,7 +94,9 @@ function create_or_update_characters_node($data): Node {
     $node->get('field_character_gender')->setValue(rick_and_morty_taxonomy_load_by_name('character_gender', $data['gender'])->id());
     $node->get('field_character_id')->setValue($data['id']);
     $node->get('field_character_image')->setValue($media);
-    $node->get('field_character_location')->setValue(rick_and_morty_taxonomy_load_by_name('character_location', $data['location']['name'])->id());
+    if (!empty($location)) {
+      $node->get('field_character_location')->setValue($locations);
+    }
     $node->get('field_character_name')->setValue($data['name']);
     $node->get('field_character_species')->setValue(rick_and_morty_taxonomy_load_by_name('character_species', $data['species'])->id());
     $node->get('field_character_status')->setValue(rick_and_morty_taxonomy_load_by_name('character_status', $data['status'])->id());
@@ -99,11 +111,73 @@ function create_or_update_characters_node($data): Node {
       $node->field_character_gender = rick_and_morty_taxonomy_load_by_name('character_gender', $data['gender'])->id();
       $node->field_character_id = $data['id'];
       $node->field_character_image = $media;
-      $node->field_character_location = rick_and_morty_taxonomy_load_by_name('character_location', $data['location']['name'])->id();
+      if (!empty($location)) {
+        $node->field_character_location = $locations;
+      }
       $node->field_character_name = $data['name'];
       $node->field_character_species = rick_and_morty_taxonomy_load_by_name('character_species', $data['species'])->id();
       $node->field_character_status = rick_and_morty_taxonomy_load_by_name('character_status', $data['status'])->id();
       $node->field_character_type = rick_and_morty_taxonomy_load_by_name('character_type', $data['type'])->id();
+      return $node;
+  }
+}
+
+function create_or_update_locations_node($data): Node {
+  $nids = \Drupal::entityQuery('node')
+    ->accessCheck(FALSE)
+    ->condition('type', 'location', 'IN')
+    ->condition('field_location_id', $data['id'], 'IN')
+    ->execute();
+  $urls = $data['residents'];
+  if (!empty($urls)) {
+    $characterIds = array_map(function($url) {
+      $parts = parse_url($url);
+      return basename($parts['path']);
+    }, $urls);
+    $residents = \Drupal::entityQuery('node')
+      ->accessCheck(FALSE)
+      ->condition('type', 'character', 'IN')
+      ->condition('field_character_id', $characterIds, 'IN')
+      ->execute();
+    $characterIds = array_map(function($resident) {
+      return [ 'target_id' => $resident ];
+    }, $residents);
+  }
+
+  $date = new \DateTime($data['created']);
+  $date = $date->format('Y-m-d');
+
+  if (empty($nids)) {
+    $node = Node::create([
+        'type' => 'location', // Replace with your content type machine name.
+        'title' => $data['name'],
+        'uid' => 1,
+        'field_location_created' => [
+            'value' => $date,
+        ],
+    ]);
+
+    $node->get('field_location_id')->setValue($data['id']);
+    $node->get('field_location_dimension')->setValue(rick_and_morty_taxonomy_load_by_name('location_dimension', $data['dimension'])->id());
+    $node->get('field_location_name')->setValue($data['name']);
+    $node->get('field_location_type')->setValue(rick_and_morty_taxonomy_load_by_name('location_type', $data['type'])->id());
+    if (!empty($urls)) {
+      $node->get('field_location_residents')->setValue($characterIds);
+    }
+
+    // Save the node.
+    return $node;
+  } else {
+      $nodes = Node::loadMultiple($nids);
+      $node = array_shift($nodes);
+      $node->field_location_created->value = $date;
+      $node->field_location_id = $data['id'];
+      $node->field_location_dimension = rick_and_morty_taxonomy_load_by_name('location_dimension', $data['dimension'])->id();
+      $node->field_location_name = $data['name'];
+      $node->field_location_type = rick_and_morty_taxonomy_load_by_name('location_type', $data['type'])->id();
+      if (!empty($urls)) {
+        $node->field_location_residents = $characterIds;
+      }
       return $node;
   }
 }
@@ -157,3 +231,19 @@ function import_characters_data_finished($success, $results, $operations) {
   }
   \Drupal::messenger()->addStatus($message);
 }
+
+function import_locations_data_finished($success, $results, $operations) {
+  // The 'success' parameter means no fatal PHP errors were detected. All
+  // other error management should be handled using 'results'.
+  if ($success) {
+      $message = \Drupal::translation()->formatPlural(
+          count($results),
+          'One post processed.', '@count posts processed.'
+      );
+  }
+  else {
+      $message = t('Finished with an error.');
+  }
+  \Drupal::messenger()->addStatus($message);
+}
+

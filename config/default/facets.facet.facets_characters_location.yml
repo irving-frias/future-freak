@@ -1,4 +1,4 @@
-uuid: d484a4f9-0220-46b4-b7c9-df6d10e301e3
+uuid: dfaf4595-fb91-40c4-8ff2-81ff8b9c421e
 langcode: en
 status: true
 dependencies:
@@ -16,7 +16,7 @@ missing_label: others
 url_alias: location
 facet_source_id: 'search_api:views_page__characters__page_1'
 field_identifier: field_character_location
-query_operator: or
+query_operator: and
 hard_limit: 0
 exclude: false
 use_hierarchy: false
@@ -31,7 +31,7 @@ widget:
   config:
     show_numbers: false
     soft_limit: 0
-    show_reset_link: true
+    show_reset_link: false
     reset_text: 'Show all'
     hide_reset_when_no_selection: false
     soft_limit_settings:

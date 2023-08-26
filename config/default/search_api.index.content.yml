@@ -3,12 +3,12 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_character_id
     - field.storage.node.field_character_gender
-    - field.storage.node.field_character_location
+    - field.storage.node.field_character_id
     - field.storage.node.field_character_species
     - field.storage.node.field_character_status
     - field.storage.node.field_character_type
+    - field.storage.node.field_character_location
     - search_api.server.solr
   module:
     - search_api_solr

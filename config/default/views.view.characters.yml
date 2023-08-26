@@ -149,10 +149,10 @@ display:
         options: {  }
       empty: {  }
       sorts:
-        label:
-          id: label
+        field_character_id:
+          id: field_character_id
           table: search_api_index_content
-          field: label
+          field: field_character_id
           relationship: none
           group_type: group
           admin_label: ''

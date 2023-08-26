@@ -1,15 +1,16 @@
-uuid: 4f76338a-6e8d-441c-94f8-92ee4040d34e
+uuid: 19aa92a7-33f7-4b7f-8751-319d0f9ecd14
 langcode: en
 status: true
 dependencies:
   module:
     - node
-id: node.field_character_location
-field_name: field_character_location
+    - taxonomy
+id: node.field_location_type
+field_name: field_location_type
 entity_type: node
 type: entity_reference
 settings:
-  target_type: node
+  target_type: taxonomy_term
 module: core
 locked: false
 cardinality: 1

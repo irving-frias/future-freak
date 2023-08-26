@@ -12,13 +12,13 @@ dependencies:
 id: future_freak_facets_characters_status
 theme: future_freak
 region: facets
-weight: 0
+weight: -5
 provider: null
 plugin: 'facet_block:facets_characters_status'
 settings:
   id: 'facet_block:facets_characters_status'
   label: 'Facets - Characters - Status'
-  label_display: '0'
+  label_display: visible
   provider: facets
   context_mapping: {  }
   block_id: future_freak_facets_characters_status

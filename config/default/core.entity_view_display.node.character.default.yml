@@ -61,7 +61,7 @@ content:
     settings:
       link: true
     third_party_settings: {  }
-    weight: 107
+    weight: 110
     region: content
   field_character_name:
     type: string

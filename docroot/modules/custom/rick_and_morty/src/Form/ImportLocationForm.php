@@ -50,17 +50,43 @@ final class ImportLocationForm extends FormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state): void {
-    $config = \Drupal::config('rick_and_morty.settings');
-    $nids = \Drupal::entityQuery('node')->execute();
-    // $operations = [
-    //     ['delete_nodes_example', [$nids]],
-    // ];
-    // $batch = [
-    //     'title' => $this->t('Deleting All Nodes ...'),
-    //     'operations' => $operations,
-    //     'finished' => 'delete_nodes_finished',
-    // ];
-    // batch_set($batch);
+    $config = \Drupal::config('rick_and_morty.settings')->get();
+    $endpoint = $config['api_url'] . $config['api_url_locations_endpoint'] . '?page=';
+    $total_pages = (int)$config['api_url_locations_total_pages'];
+
+    $endpoints = array_map(function ($page) use ($endpoint) {
+      return $endpoint . $page;
+    }, range(1, $total_pages));
+
+    $client = \Drupal::httpClient();
+
+    $promises = [];
+    foreach ($endpoints as $url) {
+      $promises[] = $client->getAsync($url);
+    }
+
+    // Wait for all promises to complete.
+    $responses = \GuzzleHttp\Promise\Utils::unwrap($promises);
+
+    foreach ($responses as $response) {
+      // Process each response as needed.
+      $statusCode = $response->getStatusCode();
+      $content = $response->getBody()->getContents();
+      $data = json_decode($content, TRUE)['results'];
+      foreach ($data as $data) {
+        $operations[] = ['import_locations_data', [$data]];
+      }
+    }
+
+    $batch = [
+      'title' => $this->t('Importing locations ...'),
+      'operations' => $operations,
+      'init_message' => t('Importing'),
+      'progress_message' => t('Processed @current out of @total.'),
+      'finished' => 'import_locations_data_finished',
+    ];
+
+    batch_set($batch);
   }
 
 }

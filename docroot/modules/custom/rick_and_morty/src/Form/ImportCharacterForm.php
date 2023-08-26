@@ -53,7 +53,6 @@ final class ImportCharacterForm extends FormBase {
     $config = \Drupal::config('rick_and_morty.settings')->get();
     $endpoint = $config['api_url'] . $config['api_url_characters_endpoint'] . '?page=';
     $total_pages = (int)$config['api_url_characters_total_pages'];
-    $typeOfData = 'character';
 
     $endpoints = array_map(function ($page) use ($endpoint) {
       return $endpoint . $page;

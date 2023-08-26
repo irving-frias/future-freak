@@ -56,14 +56,6 @@ content:
     third_party_settings: {  }
     weight: 7
     region: content
-  field_character_location:
-    type: entity_reference_label
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    weight: 6
-    region: content
   field_character_name:
     type: string
     label: above
@@ -97,6 +89,7 @@ content:
     weight: 4
     region: content
 hidden:
+  field_character_location: true
   langcode: true
   links: true
   search_api_excerpt: true

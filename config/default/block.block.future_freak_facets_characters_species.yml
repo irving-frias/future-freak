@@ -12,13 +12,13 @@ dependencies:
 id: future_freak_facets_characters_species
 theme: future_freak
 region: facets
-weight: 0
+weight: -6
 provider: null
 plugin: 'facet_block:facets_characters_species'
 settings:
   id: 'facet_block:facets_characters_species'
   label: 'Facets - Characters - Species'
-  label_display: '0'
+  label_display: visible
   provider: facets
   context_mapping: {  }
   block_id: future_freak_facets_characters_species

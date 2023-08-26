@@ -6,14 +6,6 @@ rick_and_morty.settings:
   requirements:
     _permission: 'administer site configuration'
 
-rick_and_morty.controllers:
-  path: '/rick-and-morty/import-characters'
-  defaults:
-    _title: 'Rick And Morty import characters'
-    _controller: '\Drupal\rick_and_morty\Controller\RickAndMortyController'
-  requirements:
-    _permission: 'access content'
-
 rick_and_morty.import_character:
   path: '/rick-and-morty/import-character'
   defaults:

@@ -1,16 +1,17 @@
-uuid: 4f76338a-6e8d-441c-94f8-92ee4040d34e
+uuid: b60dd80e-bd65-49cc-9f6e-bfb02637d985
 langcode: en
 status: true
 dependencies:
   module:
+    - datetime
     - node
-id: node.field_character_location
-field_name: field_character_location
+id: node.field_location_created
+field_name: field_location_created
 entity_type: node
-type: entity_reference
+type: datetime
 settings:
-  target_type: node
-module: core
+  datetime_type: date
+module: datetime
 locked: false
 cardinality: 1
 translatable: true

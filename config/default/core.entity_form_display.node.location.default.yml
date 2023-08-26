@@ -1,25 +1,21 @@
-uuid: f7bfef84-4d28-4738-ba21-b99dffd64993
+uuid: 76bcbb65-3b9e-418c-a4bd-ce338cade55c
 langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.character.field_character_created
-    - field.field.node.character.field_character_gender
-    - field.field.node.character.field_character_id
-    - field.field.node.character.field_character_image
-    - field.field.node.character.field_character_location
-    - field.field.node.character.field_character_name
-    - field.field.node.character.field_character_species
-    - field.field.node.character.field_character_status
-    - field.field.node.character.field_character_type
-    - node.type.character
+    - field.field.node.location.field_location_created
+    - field.field.node.location.field_location_dimension
+    - field.field.node.location.field_location_id
+    - field.field.node.location.field_location_name
+    - field.field.node.location.field_location_residents
+    - field.field.node.location.field_location_type
+    - node.type.location
   module:
     - datetime
-    - media_library
     - path
-id: node.character.default
+id: node.location.default
 targetEntityType: node
-bundle: character
+bundle: location
 mode: default
 content:
   created:
@@ -28,56 +24,13 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_character_created:
+  field_location_created:
     type: datetime_default
-    weight: 129
+    weight: 126
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_character_gender:
-    type: entity_reference_autocomplete
-    weight: 126
-    region: content
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_character_id:
-    type: string_textfield
-    weight: 121
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_character_image:
-    type: media_library_widget
-    weight: 128
-    region: content
-    settings:
-      media_types: {  }
-    third_party_settings: {  }
-  field_character_location:
-    type: entity_reference_autocomplete
-    weight: 130
-    region: content
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_character_name:
-    type: string_textfield
-    weight: 122
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_character_species:
+  field_location_dimension:
     type: entity_reference_autocomplete
     weight: 124
     region: content
@@ -87,9 +40,25 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  field_character_status:
+  field_location_id:
+    type: string_textfield
+    weight: 121
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_location_name:
+    type: string_textfield
+    weight: 122
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_location_residents:
     type: entity_reference_autocomplete
-    weight: 123
+    weight: 125
     region: content
     settings:
       match_operator: CONTAINS
@@ -97,9 +66,9 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  field_character_type:
+  field_location_type:
     type: entity_reference_autocomplete
-    weight: 125
+    weight: 123
     region: content
     settings:
       match_operator: CONTAINS

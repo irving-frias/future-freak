@@ -1,4 +1,4 @@
-uuid: 41ac8ded-2898-4a97-b387-6a009bf409aa
+uuid: ecae5c82-3ee3-46c6-86bd-cf8ae6c71434
 langcode: en
 status: true
 dependencies:
@@ -12,13 +12,13 @@ dependencies:
 id: future_freak_facets_characters_location
 theme: future_freak
 region: facets
-weight: 0
+weight: -8
 provider: null
 plugin: 'facet_block:facets_characters_location'
 settings:
   id: 'facet_block:facets_characters_location'
   label: 'Facets - Characters - Location'
-  label_display: '0'
+  label_display: visible
   provider: facets
   context_mapping: {  }
   block_id: future_freak_facets_characters_location
