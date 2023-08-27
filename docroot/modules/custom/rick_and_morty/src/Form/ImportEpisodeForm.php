@@ -50,8 +50,43 @@ final class ImportEpisodeForm extends FormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state): void {
-    $this->messenger()->addStatus($this->t('The message has been sent.'));
-    $form_state->setRedirect('<front>');
+    $config = \Drupal::config('rick_and_morty.settings')->get();
+    $endpoint = $config['api_url'] . $config['api_url_episodes_endpoint'] . '?page=';
+    $total_pages = (int)$config['api_url_episodes_total_pages'];
+
+    $endpoints = array_map(function ($page) use ($endpoint) {
+      return $endpoint . $page;
+    }, range(1, $total_pages));
+
+    $client = \Drupal::httpClient();
+
+    $promises = [];
+    foreach ($endpoints as $url) {
+      $promises[] = $client->getAsync($url);
+    }
+
+    // Wait for all promises to complete.
+    $responses = \GuzzleHttp\Promise\Utils::unwrap($promises);
+
+    foreach ($responses as $response) {
+      // Process each response as needed.
+      $statusCode = $response->getStatusCode();
+      $content = $response->getBody()->getContents();
+      $data = json_decode($content, TRUE)['results'];
+      foreach ($data as $data) {
+        $operations[] = ['import_episodes_data', [$data]];
+      }
+    }
+
+    $batch = [
+      'title' => $this->t('Importing episodes ...'),
+      'operations' => $operations,
+      'init_message' => t('Importing'),
+      'progress_message' => t('Processed @current out of @total.'),
+      'finished' => 'import_episodes_data_finished',
+    ];
+
+    batch_set($batch);
   }
 
 }

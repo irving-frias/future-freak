@@ -57,6 +57,16 @@ function import_locations_data($data, &$context){
   $context['results'] = $results;
 }
 
+function import_episodes_data($data, &$context) {
+  $message = 'Importing all episodes ...';
+  $results = array();
+  $node = create_or_update_episodes_node($data);
+  $results[] = $node->save();
+
+  $context['message'] = $message;
+  $context['results'] = $results;
+}
+
 function create_or_update_characters_node($data): Node {
   $nids = \Drupal::entityQuery('node')
     ->accessCheck(FALSE)
@@ -177,6 +187,75 @@ function create_or_update_locations_node($data): Node {
       $node->field_location_type = rick_and_morty_taxonomy_load_by_name('location_type', $data['type'])->id();
       if (!empty($urls)) {
         $node->field_location_residents = $characterIds;
+      }
+      return $node;
+  }
+}
+
+function create_or_update_episodes_node($data): Node {
+  $nids = \Drupal::entityQuery('node')
+  ->accessCheck(FALSE)
+  ->condition('type', 'episode', 'IN')
+  ->condition('field_episode_id', $data['id'], 'IN')
+  ->execute();
+
+  $urls = $data['characters'];
+  if (!empty($urls)) {
+    $characterIds = array_map(function($url) {
+      $parts = parse_url($url);
+      return basename($parts['path']);
+    }, $urls);
+    $residents = \Drupal::entityQuery('node')
+      ->accessCheck(FALSE)
+      ->condition('type', 'character', 'IN')
+      ->condition('field_character_id', $characterIds, 'IN')
+      ->execute();
+    $characterIds = array_map(function($resident) {
+      return [ 'target_id' => $resident ];
+    }, $residents);
+  }
+
+  $date = new \DateTime($data['created']);
+  $date = $date->format('Y-m-d');
+  $oldDateString = $data['air_date'];
+  $oldDateFormat = "F j, Y";
+  $newDateTime = DateTime::createFromFormat($oldDateFormat, $oldDateString);
+  $newDateString = $newDateTime->format("Y-m-d\TH:i:s.v\Z");
+  $air_date = new \DateTime($newDateString);
+  $air_date = $air_date->format('Y-m-d');
+
+  if (empty($nids)) {
+    $node = Node::create([
+        'type' => 'episode', // Replace with your content type machine name.
+        'title' => $data['name'],
+        'uid' => 1,
+        'field_episode_created' => [
+            'value' => $date,
+        ],
+        'field_episode_air_date' => [
+          'value' => $air_date,
+        ],
+    ]);
+
+    $node->get('field_episode_id')->setValue($data['id']);
+    $node->get('field_episode_episode')->setValue($data['episode']);
+    $node->get('field_episode_name')->setValue($data['name']);
+    if (!empty($urls)) {
+      $node->get('field_episode_characters')->setValue($characterIds);
+    }
+
+    // Save the node.
+    return $node;
+  } else {
+      $nodes = Node::loadMultiple($nids);
+      $node = array_shift($nodes);
+      $node->field_episode_created->value = $date;
+      $node->field_episode_air_date->value = $air_date;
+      $node->field_episode_id = $data['id'];
+      $node->field_episode_episode = $data['episode'];
+      $node->field_episode_name = $data['name'];
+      if (!empty($urls)) {
+        $node->field_episode_characters = $characterIds;
       }
       return $node;
   }
