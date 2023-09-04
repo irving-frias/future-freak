@@ -1,0 +1,13 @@
+freak_quizzes.admin_config:
+  title: 'Freak Quizzes'
+  route_name: freak_quizzes.admin_config
+  parent: system.admin_config
+  description: 'Freak Quizzes Configuration'
+  weight: -999
+
+freak_quizzes.settings:
+  title: Freak Quizzes Settings
+  description: Quizzes configuration.
+  route_name: freak_quizzes.settings
+  parent: freak_quizzes.admin_config
+  weight: 1

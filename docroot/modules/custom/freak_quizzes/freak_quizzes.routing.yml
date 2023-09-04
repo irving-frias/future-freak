@@ -1,0 +1,15 @@
+freak_quizzes.admin_config:
+  path: '/admin/config/freak_quizzes'
+  defaults:
+    _controller: '\Drupal\system\Controller\SystemController::systemAdminMenuBlockPage'
+    _title: 'Freak Quizzes Module'
+  requirements:
+    _permission: 'administer site configuration'
+
+freak_quizzes.settings:
+  path: '/freak-quizzes/settings'
+  defaults:
+    _title: 'Freak Quizzes Settings'
+    _form: 'Drupal\freak_quizzes\Form\SettingsForm'
+  requirements:
+    _permission: 'administer site configuration'
