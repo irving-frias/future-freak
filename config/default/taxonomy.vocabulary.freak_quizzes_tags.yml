@@ -1,0 +1,8 @@
+uuid: b5e07ea1-e746-42c6-84ae-2c25276e0b36
+langcode: en
+status: true
+dependencies: {  }
+name: Tags
+vid: freak_quizzes_tags
+description: ''
+weight: 0

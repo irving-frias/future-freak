@@ -1,0 +1,19 @@
+uuid: 2347ecb8-6242-423a-9288-4f6d036094ca
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_freak_quizzes_type
+    - node.type.freak_quizzes_question
+id: node.freak_quizzes_question.field_freak_quizzes_type
+field_name: field_freak_quizzes_type
+entity_type: node
+bundle: freak_quizzes_question
+label: Type
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,19 @@
+uuid: 9e11d4a5-f579-406f-9ccb-20cb208c3c60
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_freak_quizzes_question
+field_name: field_freak_quizzes_question
+entity_type: node
+type: string_long
+settings:
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -4,3 +4,26 @@
  * @file
  * Primary module hooks for Freak Quizzes module.
  */
+function freak_quizzes_cron() {
+  freak_quizzes_fetch_questions();
+}
+
+function freak_quizzes_fetch_questions() {
+  $client = \Drupal::httpClient();
+  $url = 'https://the-trivia-api.com/v2/questions';
+
+  $promises[] = $client->getAsync($url);
+
+  // Wait for all promises to complete.
+  $responses = \GuzzleHttp\Promise\Utils::unwrap($promises);
+
+  foreach ($responses as $response) {
+    // Process each response as needed.
+    $statusCode = $response->getStatusCode();
+    $content = $response->getBody()->getContents();
+    $data = json_decode($content, TRUE);
+    foreach ($data as $data) {
+      print_r($data);
+    }
+  }
+}

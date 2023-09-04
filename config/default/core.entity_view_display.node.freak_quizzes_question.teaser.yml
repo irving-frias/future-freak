@@ -1,0 +1,38 @@
+uuid: 5e877c29-305a-49f8-ac49-a39260348831
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.freak_quizzes_question.field_field_freak_quizzes_id
+    - field.field.node.freak_quizzes_question.field_freak_quizzes_category
+    - field.field.node.freak_quizzes_question.field_freak_quizzes_difficulty
+    - field.field.node.freak_quizzes_question.field_freak_quizzes_false_a
+    - field.field.node.freak_quizzes_question.field_freak_quizzes_question
+    - field.field.node.freak_quizzes_question.field_freak_quizzes_tags
+    - field.field.node.freak_quizzes_question.field_freak_quizzes_true_a
+    - field.field.node.freak_quizzes_question.field_freak_quizzes_type
+    - node.type.freak_quizzes_question
+  module:
+    - user
+id: node.freak_quizzes_question.teaser
+targetEntityType: node
+bundle: freak_quizzes_question
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_field_freak_quizzes_id: true
+  field_freak_quizzes_category: true
+  field_freak_quizzes_difficulty: true
+  field_freak_quizzes_false_a: true
+  field_freak_quizzes_question: true
+  field_freak_quizzes_tags: true
+  field_freak_quizzes_true_a: true
+  field_freak_quizzes_type: true
+  langcode: true
+  search_api_excerpt: true

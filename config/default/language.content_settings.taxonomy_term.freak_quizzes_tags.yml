@@ -1,0 +1,11 @@
+uuid: 13a35919-4ad2-4de1-bb20-e0741521a225
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.freak_quizzes_tags
+id: taxonomy_term.freak_quizzes_tags
+target_entity_type_id: taxonomy_term
+target_bundle: freak_quizzes_tags
+default_langcode: site_default
+language_alterable: false

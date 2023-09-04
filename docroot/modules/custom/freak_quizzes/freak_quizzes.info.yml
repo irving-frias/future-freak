@@ -3,3 +3,5 @@ type: module
 description: 'This module provides quizes for custom questionaires.'
 package: Future Freak
 core_version_requirement: ^10
+dependencies:
+  - ultimate_cron:ultimate_cron

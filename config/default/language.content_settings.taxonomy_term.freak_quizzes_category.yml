@@ -1,0 +1,11 @@
+uuid: c09bd2a7-e011-4b49-95e4-4480c6a23824
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.freak_quizzes_category
+id: taxonomy_term.freak_quizzes_category
+target_entity_type_id: taxonomy_term
+target_bundle: freak_quizzes_category
+default_langcode: site_default
+language_alterable: false

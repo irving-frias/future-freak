@@ -4,3 +4,7 @@
  * @file
  * Install, update and uninstall functions for the Freak Quizzes module.
  */
+function freak_quizzes_update_8001() {
+  // Load and import the configuration.
+  \Drupal::configFactory()->getEditable('node.type.freak_quizzes_question')->save();
+}

@@ -1,0 +1,148 @@
+uuid: d2f9c45a-b124-4e14-bea5-9507bacf9518
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.freak_quizzes_question.field_field_freak_quizzes_id
+    - field.field.node.freak_quizzes_question.field_freak_quizzes_category
+    - field.field.node.freak_quizzes_question.field_freak_quizzes_difficulty
+    - field.field.node.freak_quizzes_question.field_freak_quizzes_false_a
+    - field.field.node.freak_quizzes_question.field_freak_quizzes_question
+    - field.field.node.freak_quizzes_question.field_freak_quizzes_tags
+    - field.field.node.freak_quizzes_question.field_freak_quizzes_true_a
+    - field.field.node.freak_quizzes_question.field_freak_quizzes_type
+    - node.type.freak_quizzes_question
+  module:
+    - path
+id: node.freak_quizzes_question.default
+targetEntityType: node
+bundle: freak_quizzes_question
+mode: default
+content:
+  created:
+    type: datetime_timestamp
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_field_freak_quizzes_id:
+    type: string_textfield
+    weight: 122
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_freak_quizzes_category:
+    type: entity_reference_autocomplete
+    weight: 121
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_freak_quizzes_difficulty:
+    type: string_textfield
+    weight: 129
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_freak_quizzes_false_a:
+    type: string_textarea
+    weight: 124
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_freak_quizzes_question:
+    type: string_textarea
+    weight: 126
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_freak_quizzes_tags:
+    type: entity_reference_autocomplete
+    weight: 127
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_freak_quizzes_true_a:
+    type: string_textarea
+    weight: 125
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_freak_quizzes_type:
+    type: string_textfield
+    weight: 128
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 30
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  promote:
+    type: boolean_checkbox
+    weight: 15
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    weight: 120
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  sticky:
+    type: boolean_checkbox
+    weight: 16
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: -5
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 5
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden: {  }

@@ -1,0 +1,11 @@
+uuid: 936554b4-c280-4d27-97e4-807be564a132
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.freak_quizzes_question
+id: node.freak_quizzes_question
+target_entity_type_id: node
+target_bundle: freak_quizzes_question
+default_langcode: site_default
+language_alterable: false

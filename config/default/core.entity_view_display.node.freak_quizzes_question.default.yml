@@ -1,0 +1,90 @@
+uuid: 7b56d7fd-f031-4930-b1d2-f2ec584df737
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.freak_quizzes_question.field_field_freak_quizzes_id
+    - field.field.node.freak_quizzes_question.field_freak_quizzes_category
+    - field.field.node.freak_quizzes_question.field_freak_quizzes_difficulty
+    - field.field.node.freak_quizzes_question.field_freak_quizzes_false_a
+    - field.field.node.freak_quizzes_question.field_freak_quizzes_question
+    - field.field.node.freak_quizzes_question.field_freak_quizzes_tags
+    - field.field.node.freak_quizzes_question.field_freak_quizzes_true_a
+    - field.field.node.freak_quizzes_question.field_freak_quizzes_type
+    - node.type.freak_quizzes_question
+  module:
+    - user
+id: node.freak_quizzes_question.default
+targetEntityType: node
+bundle: freak_quizzes_question
+mode: default
+content:
+  field_field_freak_quizzes_id:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  field_freak_quizzes_category:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_freak_quizzes_difficulty:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 109
+    region: content
+  field_freak_quizzes_false_a:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 104
+    region: content
+  field_freak_quizzes_question:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 106
+    region: content
+  field_freak_quizzes_tags:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 107
+    region: content
+  field_freak_quizzes_true_a:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 105
+    region: content
+  field_freak_quizzes_type:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 108
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  langcode: true
+  search_api_excerpt: true

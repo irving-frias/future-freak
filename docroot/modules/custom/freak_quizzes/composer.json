@@ -1,0 +1,29 @@
+{
+    "name": "ifrias/freak_quizzes",
+    "type": "drupal-module",
+    "license": "GPL-2.0-or-later",
+    "keywords": [
+        "Drupal",
+        "Quizzes",
+        "Api",
+        "Content",
+        "Drush commands"
+    ],
+    "homepage": "https://github.com/irving-frias/freak-quizzes",
+    "autoload": {
+        "psr-4": {
+            "Ifrias\\FreakQuizzes\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "irving-frias",
+            "email": "irvingfrias41@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "drupal/core": "^10.0",
+        "drupal/ultimate_cron": "^2.0"
+    }
+}

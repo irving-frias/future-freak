@@ -1,0 +1,29 @@
+uuid: a4d0c4e0-4f5a-4c2e-884d-02af9d2c2bbf
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_freak_quizzes_tags
+    - node.type.freak_quizzes_question
+    - taxonomy.vocabulary.freak_quizzes_tags
+id: node.freak_quizzes_question.field_freak_quizzes_tags
+field_name: field_freak_quizzes_tags
+entity_type: node
+bundle: freak_quizzes_question
+label: Tags
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      freak_quizzes_tags: freak_quizzes_tags
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference
