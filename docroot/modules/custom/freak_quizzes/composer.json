@@ -21,9 +21,5 @@
             "email": "irvingfrias41@gmail.com"
         }
     ],
-    "minimum-stability": "stable",
-    "require": {
-        "drupal/core": "^10.0",
-        "drupal/ultimate_cron": "^2.0"
-    }
+    "minimum-stability": "stable"
 }
