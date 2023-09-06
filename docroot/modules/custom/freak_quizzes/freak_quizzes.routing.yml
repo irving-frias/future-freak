@@ -7,9 +7,25 @@ freak_quizzes.admin_config:
     _permission: 'administer site configuration'
 
 freak_quizzes.settings:
-  path: '/freak-quizzes/settings'
+  path: '/admin/config/freak_quizzes/settings'
   defaults:
     _title: 'Freak Quizzes Settings'
     _form: 'Drupal\freak_quizzes\Form\SettingsForm'
   requirements:
     _permission: 'administer site configuration'
+
+freak_quizzes.start_quiz:
+  path: '/freak-quizzes/start-quiz'
+  defaults:
+    _title: 'Start Quiz'
+    _form: 'Drupal\freak_quizzes\Form\StartQuizForm'
+  requirements:
+    _permission: 'access content'
+
+freak_quizzes.quiz:
+  path: '/freak-quizzes/quiz'
+  defaults:
+    _title: 'Quiz'
+    _form: 'Drupal\freak_quizzes\Form\QuizForm'
+  requirements:
+    _permission: 'access content'

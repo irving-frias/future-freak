@@ -1,16 +1,20 @@
 <?php
 
+use Drupal\taxonomy\Entity\Term;
+use Drupal\node\Entity\Node;
+
 /**
  * @file
  * Primary module hooks for Freak Quizzes module.
  */
 function freak_quizzes_cron() {
-  freak_quizzes_fetch_questions();
+  freak_quizzes_import_questions();
 }
 
-function freak_quizzes_fetch_questions() {
+function freak_quizzes_fetch_questions(): Array {
   $client = \Drupal::httpClient();
   $url = 'https://the-trivia-api.com/v2/questions';
+  $questions = [];
 
   $promises[] = $client->getAsync($url);
 
@@ -23,7 +27,130 @@ function freak_quizzes_fetch_questions() {
     $content = $response->getBody()->getContents();
     $data = json_decode($content, TRUE);
     foreach ($data as $data) {
-      print_r($data);
+      $questions[] = $data;
     }
   }
+
+  return $questions;
 }
+
+function freak_quizzes_taxonomy_load_by_name($term_name, $vocabulary) {
+  $vocabulary = !empty($vocabulary) ? $vocabulary : 'unknown';
+  $terms = \Drupal::entityTypeManager()
+    ->getStorage('taxonomy_term')
+    ->loadByProperties([
+      'vid' => $term_name,
+      'name' => $vocabulary,
+    ]);
+
+  if ($terms) {
+    $term = reset($terms);
+    return $term;
+  } else {
+    $term = Term::create([
+        'vid' => $term_name,
+        'name' => $vocabulary,
+    ]);
+
+    $term->enforceIsNew();
+    $term->save();
+    return $term;
+  }
+}
+
+function freak_quizzes_get_translation(&$data) {
+  $original_directory = getcwd();
+  $module_path = \Drupal::moduleHandler()->getModule('freak_quizzes')->getPath();
+  chdir($original_directory . "/" . $module_path . '/services');
+  $data = escapeshellarg($data);
+  $command = "python3 translation.py $data";
+  $processed_data = json_decode(shell_exec($command));
+  chdir($original_directory);
+  $processed_data->difficulty = $processed_data->difficulty == 'Duro' ? 'Difícil' : $processed_data->difficulty;
+  $processed_data->difficulty = $processed_data->difficulty == 'Mediana' ? 'Medio' : $processed_data->difficulty;
+  $processed_data->difficulty = $processed_data->difficulty == 'Fácil' ? 'Fácil' : $processed_data->difficulty;
+  return $processed_data;
+}
+
+function create_or_update_question($data) {
+  $id = $data['id'];
+  $category = $data['category'];
+  $correctAnswer = $data['correctAnswer'];
+  $incorrectAnswers = $data['incorrectAnswers'];
+  $question = $data['question']['text'];
+  $tags = $data['tags'];
+  $type = $data['type'];
+  $difficulty = $data['difficulty'];
+
+  $nids = \Drupal::entityQuery('node')
+    ->accessCheck(FALSE)
+    ->condition('type', 'freak_quizzes_question', 'IN')
+    ->condition('field_freak_quizzes_id', $id, 'IN')
+    ->execute();
+
+  $tags = array_map(function ($tag) {
+    return freak_quizzes_taxonomy_load_by_name('freak_quizzes_category', ucwords(str_replace('_', ' ', $tag)))->id();
+  }, $tags);
+
+  // Serialize the array to a JSON string
+  $data_to_translate = json_encode($data);
+  $translation = freak_quizzes_get_translation($data_to_translate);
+
+  if (empty($nids)) {
+    $node = Node::create([
+      'type' => 'freak_quizzes_question', // Replace with your content type machine name.
+      'title' => $question,
+      'uid' => 1,
+    ]);
+
+    $node->get('field_freak_quizzes_id')->setValue($id);
+    $node->get('field_freak_quizzes_category')->setValue(freak_quizzes_taxonomy_load_by_name('freak_quizzes_category', ucwords(str_replace('_', ' ', $category)))->id());
+    $node->get('field_freak_quizzes_true_a')->setValue($correctAnswer);
+    $node->get('field_freak_quizzes_false_a')->setValue(implode(", ", $incorrectAnswers));
+    $node->get('field_freak_quizzes_question')->setValue($question);
+    $node->get('field_freak_quizzes_tags')->setValue($tags);
+    $node->get('field_freak_quizzes_type')->setValue(ucwords(str_replace('_', ' ', $type)));
+    $node->get('field_freak_quizzes_difficulty')->setValue(ucwords($difficulty));
+    $node->set('langcode', 'en');
+    $node->save();
+
+    $tags = array_map(function ($tag) {
+      return freak_quizzes_taxonomy_load_by_name('freak_quizzes_category', ucwords(str_replace('_', ' ', $tag)))->id();
+    }, $translation->tags);
+    $node->addTranslation('es', [
+      'title' => $translation->question,
+      'uid' => 1,
+      'field_freak_quizzes_id' => $id,
+      'field_freak_quizzes_true_a' => $translation->correctAnswer,
+      'field_freak_quizzes_false_a' => implode(", ", $translation->incorrectAnswers),
+      'field_freak_quizzes_question' => $translation->question,
+      'field_freak_quizzes_tags' => $tags,
+      'field_freak_quizzes_type' => $translation->type,
+      'field_freak_quizzes_difficulty' => $translation->difficulty,
+      'langcode' => 'es',
+    ]);
+
+    $node->save();
+  } else {
+    $nodes = Node::loadMultiple($nids);
+    $node = array_shift($nodes);
+    $node->get('field_freak_quizzes_category')->setValue(freak_quizzes_taxonomy_load_by_name('freak_quizzes_category', ucwords(str_replace('_', ' ', $category)))->id());
+    $node->get('field_freak_quizzes_true_a')->setValue($correctAnswer);
+    $node->get('field_freak_quizzes_false_a')->setValue(implode(", ", $incorrectAnswers));
+    $node->get('field_freak_quizzes_question')->setValue($question);
+    $node->get('field_freak_quizzes_tags')->setValue($tags);
+    $node->get('field_freak_quizzes_type')->setValue(ucwords(str_replace('_', ' ', $type)));
+    $node->get('field_freak_quizzes_difficulty')->setValue(ucwords($difficulty));
+    $node->set('langcode', 'en');
+    $node->save();
+  }
+}
+
+function freak_quizzes_import_questions() {
+  $questions = freak_quizzes_fetch_questions();
+
+  foreach ($questions as $key => $question_item) {
+    create_or_update_question($question_item);
+  }
+}
+

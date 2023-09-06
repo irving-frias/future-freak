@@ -47,7 +47,7 @@ final class FreakQuizzesCommands extends DrushCommands {
   #[CLI\Command(name: 'freak_quizzes:import-quizzes', aliases: ['fq:import-quizzes'])]
   #[CLI\Usage(name: 'freak_quizzes:import-quizzes', description: 'Import quizzes from api rest.')]
   public function importQuizzes() {
-    freak_quizzes_fetch_questions();
+    freak_quizzes_import_questions();
     $this->logger()->success(dt('Achievement unlocked.'));
   }
 

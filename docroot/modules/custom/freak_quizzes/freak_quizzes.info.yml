@@ -2,6 +2,11 @@ name: 'Freak Quizzes'
 type: module
 description: 'This module provides quizes for custom questionaires.'
 package: Future Freak
-core_version_requirement: ^10
+core_version_requirement: ^9.4 || ^10
 dependencies:
   - ultimate_cron:ultimate_cron
+  - config_translation:config_translation
+  - content_translation:content_translation
+  - locale:locale
+  - taxonomy:taxonomy
+  - menu_ui:menu_ui

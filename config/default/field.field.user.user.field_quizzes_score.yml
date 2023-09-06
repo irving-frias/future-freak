@@ -1,0 +1,24 @@
+uuid: 6c26f3bc-93e9-4f2b-a725-8fc06d6c155b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_quizzes_score
+  module:
+    - user
+id: user.user.field_quizzes_score
+field_name: field_quizzes_score
+entity_type: user
+bundle: user
+label: 'Quizzes Score'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

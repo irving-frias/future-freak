@@ -1,10 +1,145 @@
 <?php
 
+use Drupal\taxonomy\Entity\Vocabulary;
+use Drupal\node\Entity\NodeType;
+use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\language\Entity\ConfigurableLanguage;
+
 /**
  * @file
  * Install, update and uninstall functions for the Freak Quizzes module.
  */
-function freak_quizzes_update_8001() {
+function freak_quizzes_install() {
   // Load and import the configuration.
   \Drupal::configFactory()->getEditable('node.type.freak_quizzes_question')->save();
+
+  $role_name = 'player';
+  $permissions = [
+    'access content', // Example permission; customize this list as needed.
+    'view own unpublished content',
+    // Add more permissions as needed.
+  ];
+
+  // Check if the role already exists.
+  if (!\Drupal\user\Entity\Role::load($role_name)) {
+    // Create the role.
+    $role = \Drupal\user\Entity\Role::create([
+      'id' => $role_name,
+      'label' => $role_name,
+    ]);
+    $role->save();
+
+    // Assign permissions to the role.
+    user_role_grant_permissions($role_name, $permissions);
+  }
+
+  $field_name = 'field_quizzes_answered';
+  $field_storage = [
+    'field_name' => $field_name,
+    'entity_type' => 'user',
+    'type' => 'entity_reference',
+    'settings' => [
+      'target_type' => 'node', // Set the target entity type to 'node'.
+      'handler' => 'default', // Use the default entity reference handler.
+      'handler_settings' => [
+        'target_bundles' => ['freak_quizzes_question'], // Specify the target content type(s) you want to reference.
+      ],
+    ],
+  ];
+
+  // Create the field storage.
+  FieldStorageConfig::create($field_storage)->save();
+
+  // Define the field instance configuration.
+  $field_instance = [
+    'field_name' => $field_name,
+    'entity_type' => 'user',
+    'bundle' => 'user',
+    'label' => 'Quizzes Answered',
+  ];
+
+  // Create the field instance.
+  FieldConfig::create($field_instance)->save();
+
+  // Create a number field.
+  $field_name = 'field_quizzes_score';
+  $field_storage = [
+    'field_name' => $field_name,
+    'entity_type' => 'user',
+    'type' => 'integer',
+  ];
+
+  // Create the field storage.
+  FieldStorageConfig::create($field_storage)->save();
+
+  // Define the field instance configuration.
+  $field_instance = [
+    'field_name' => $field_name,
+    'entity_type' => 'user',
+    'bundle' => 'user',
+    'label' => 'Quizzes Score',
+  ];
+
+  // Create the field instance.
+  FieldConfig::create($field_instance)->save();
+
+  freak_quizzes_import_questions();
+}
+
+function freak_quizzes_uninstall() {
+  $content_type_id = 'freak_quizzes_question'; // Replace with your content type's machine name.
+
+  // Load the entity type manager service
+  $content_type = NodeType::load($content_type_id);
+
+  // Check if the content type exists.
+  if ($content_type) {
+    // Delete the content type.
+    $content_type->delete();
+  }
+
+  // Replace 'your_vocabulary_name' with the machine name of the taxonomy vocabulary you want to delete.
+  $vocabulary_machine_name = 'freak_quizzes_category';
+  if (Vocabulary::load($vocabulary_machine_name)) {
+    // Delete the taxonomy vocabulary configuration.
+    Vocabulary::load($vocabulary_machine_name)->delete();
+  }
+
+  // Replace 'your_vocabulary_name' with the machine name of the taxonomy vocabulary you want to delete.
+  $vocabulary_machine_name = 'freak_quizzes_tags';
+
+  // Delete the taxonomy vocabulary and its associated terms.
+  if (Vocabulary::load($vocabulary_machine_name)) {
+    // Delete the taxonomy vocabulary configuration.
+    Vocabulary::load($vocabulary_machine_name)->delete();
+  }
+
+  $field_name = 'field_quizzes_answered'; // Replace with the field name you want to delete.
+  $field_storage = FieldStorageConfig::loadByName('user', $field_name);
+  if ($field_storage) {
+    // Delete the field storage (the actual database table).
+    $field_storage->delete();
+  }
+
+  // Check if the field configuration exists.
+  $field_config = FieldConfig::loadByName('user', 'user', $field_name);
+  if ($field_config) {
+    // Delete the field configuration.
+    $field_config->delete();
+  }
+
+  $field_name = 'field_quizzes_score'; // Replace with the field name you want to delete.
+  $field_storage = FieldStorageConfig::loadByName('user', $field_name);
+  if ($field_storage) {
+    // Delete the field storage (the actual database table).
+    $field_storage->delete();
+  }
+
+  // Check if the field configuration exists.
+  $field_config = FieldConfig::loadByName('user', 'user', $field_name);
+  if ($field_config) {
+    // Delete the field configuration.
+    $field_config->delete();
+  }
 }

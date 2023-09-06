@@ -10,6 +10,7 @@ module:
   breakpoint: 0
   ckeditor5: 0
   config: 0
+  config_translation: 0
   content_moderation: 0
   contextual: 0
   csv_serialization: 0
@@ -37,6 +38,7 @@ module:
   language: 0
   libraries: 0
   link: 0
+  locale: 0
   media: 0
   media_library: 0
   menu_link_content: 0
@@ -69,6 +71,7 @@ module:
   views_ui: 0
   workflows: 0
   pathauto: 1
+  content_translation: 10
   views: 10
   minimal: 1000
 theme:

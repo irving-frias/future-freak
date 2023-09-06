@@ -1,0 +1,30 @@
+uuid: b88c9015-c0ae-4c67-9029-b021b7440bfe
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_quizzes_answered
+    - node.type.freak_quizzes_question
+  module:
+    - user
+id: user.user.field_quizzes_answered
+field_name: field_quizzes_answered
+entity_type: user
+bundle: user
+label: 'Quizzes Answered'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      freak_quizzes_question: freak_quizzes_question
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

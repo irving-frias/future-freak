@@ -1,11 +1,11 @@
-uuid: a08f8c5c-91b2-477c-b42f-d14d3388387b
+uuid: 1e0821d7-c0a0-4095-b17c-6e2587385830
 langcode: en
 status: true
 dependencies:
   module:
     - node
-id: node.field_field_freak_quizzes_id
-field_name: field_field_freak_quizzes_id
+id: node.field_freak_quizzes_id
+field_name: field_freak_quizzes_id
 entity_type: node
 type: string
 settings:
