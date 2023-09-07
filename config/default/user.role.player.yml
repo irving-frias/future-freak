@@ -1,9 +1,12 @@
 uuid: 7c4264b8-920e-413d-bd96-f860c1841547
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  module:
+    - system
 id: player
 label: 'Player user'
 weight: 2
 is_admin: null
-permissions: {  }
+permissions:
+  - 'access content'

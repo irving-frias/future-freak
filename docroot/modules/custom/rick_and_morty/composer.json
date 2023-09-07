@@ -10,16 +10,13 @@
         "Drush commands"
       ],
     "homepage": "https://github.com/irving-frias/rick-and-morty-importer",
-    "autoload": {
-        "psr-4": {
-            "Ifrias\\RickAndMorty\\": "src/"
-        }
-    },
+    "autoload": {},
     "authors": [
         {
             "name": "irving-frias",
             "email": "irvingfrias41@gmail.com"
         }
     ],
-    "minimum-stability": "stable"
+    "minimum-stability": "stable",
+    "require": {}
 }

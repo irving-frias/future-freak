@@ -21,5 +21,9 @@
             "email": "irvingfrias41@gmail.com"
         }
     ],
-    "minimum-stability": "stable"
+    "minimum-stability": "stable",
+    "require": {
+        "revolt/event-loop": "^1.0",
+        "amphp/amp": "^3.0"
+    }
 }

@@ -23,6 +23,15 @@ final class StartQuizForm extends FormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state): array {
     $current_user = \Drupal::currentUser();
+    if (empty($current_user->getAccountName())) {
+      $form['user_info'] = [
+        '#markup' => $this->t('<h2>Hello stranger, first login to Freak Quizzes site.</h2>')
+      ];
+
+      $form_state->setRedirect('user.login');
+      return $form;
+    }
+
     $user_name = $current_user->getAccountName();
     $user_email = $current_user->getEmail();
 

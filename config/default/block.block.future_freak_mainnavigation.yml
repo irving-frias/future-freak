@@ -1,0 +1,25 @@
+uuid: 6ae8fe53-7cd9-4af8-9ebf-9882c420ee19
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.main
+  module:
+    - system
+  theme:
+    - future_freak
+id: future_freak_mainnavigation
+theme: future_freak
+region: header
+weight: 0
+provider: null
+plugin: 'system_menu_block:main'
+settings:
+  id: 'system_menu_block:main'
+  label: 'Main navigation'
+  label_display: '0'
+  provider: system
+  level: 1
+  depth: 0
+  expand_all_items: false
+visibility: {  }

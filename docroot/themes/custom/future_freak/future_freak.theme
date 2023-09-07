@@ -4,3 +4,6 @@
  * @file
  * Future Freak theme file.
  */
+include_once 'inc/theme_suggestions_form.inc';
+include_once 'inc/theme_suggestions_page_title.inc';
+include_once 'inc/theme_suggestions_page.inc';

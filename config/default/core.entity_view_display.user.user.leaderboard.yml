@@ -1,0 +1,33 @@
+uuid: ec6ebeba-62cc-4a23-871a-1a1ff591771a
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.user.leaderboard
+    - field.field.user.user.field_quizzes_answered
+    - field.field.user.user.field_quizzes_score
+  module:
+    - user
+id: user.user.leaderboard
+targetEntityType: user
+bundle: user
+mode: leaderboard
+content:
+  field_quizzes_score:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  member_for:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  field_quizzes_answered: true
+  langcode: true
+  search_api_excerpt: true

@@ -1,0 +1,10 @@
+uuid: 7e0cbd4b-f8f7-4e9f-b6db-f87c18c3a2e3
+langcode: en
+status: true
+dependencies:
+  module:
+    - user
+id: user.leaderboard
+label: Leaderboard
+targetEntityType: user
+cache: true

@@ -5,14 +5,16 @@ dependencies:
   config:
     - field.storage.node.field_character_gender
     - field.storage.node.field_character_id
+    - field.storage.node.field_character_location
     - field.storage.node.field_character_species
     - field.storage.node.field_character_status
     - field.storage.node.field_character_type
-    - field.storage.node.field_character_location
+    - field.storage.user.field_quizzes_score
     - search_api.server.solr
   module:
     - search_api_solr
     - node
+    - user
     - search_api
 third_party_settings:
   search_api_solr:
@@ -59,6 +61,7 @@ third_party_settings:
       use_language_undefined_as_fallback_language: false
       specific_languages:
         en: '0'
+        es: '0'
       use_universal_collation: false
 id: content
 name: Content
@@ -113,6 +116,14 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_character_type
+  field_quizzes_score:
+    label: 'Quizzes Score'
+    datasource_id: 'entity:user'
+    property_path: field_quizzes_score
+    type: integer
+    dependencies:
+      config:
+        - field.storage.user.field_quizzes_score
   label:
     label: Label
     property_path: aggregated_field
@@ -131,6 +142,14 @@ field_settings:
       type: first
       fields:
         - 'entity:node/title'
+  name:
+    label: Name
+    datasource_id: 'entity:user'
+    property_path: name
+    type: string
+    dependencies:
+      module:
+        - user
   nid:
     label: ID
     datasource_id: 'entity:node'
@@ -167,6 +186,14 @@ field_settings:
       view_mode:
         'entity:node':
           character: ''
+  roles:
+    label: Roles
+    datasource_id: 'entity:user'
+    property_path: roles
+    type: string
+    dependencies:
+      module:
+        - user
   status:
     label: status
     datasource_id: 'entity:node'
@@ -195,6 +222,14 @@ field_settings:
     dependencies:
       module:
         - node
+  uid_1:
+    label: 'User ID'
+    datasource_id: 'entity:user'
+    property_path: uid
+    type: integer
+    dependencies:
+      module:
+        - user
   url:
     label: URI
     property_path: search_api_url
@@ -207,6 +242,10 @@ datasource_settings:
       default: false
       selected:
         - character
+    languages:
+      default: true
+      selected: {  }
+  'entity:user':
     languages:
       default: true
       selected: {  }
